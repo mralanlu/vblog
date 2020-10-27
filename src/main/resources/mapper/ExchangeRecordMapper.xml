@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.ExchangeRecordMapper">
+
+	<!-- select  ##################################################################### -->
+
+	<select id="findAllByParam" resultType="com.northbund.vblog.pojo.vo.ExchangeRecordResult">
+		SELECT er.exchange_time,u.name as user_name,ss.score_goods_name FROM `exchange_record` er left join `user`u on u.id = er.user_id left join `score_shop` ss on ss.id = er.score_goods_id
+		<include refid="where"></include>
+	</select>
+
+
+	<insert id="insert" parameterType="com.northbund.vblog.pojo.entity.ExchangeRecord" keyProperty="id" useGeneratedKeys= "true">
+		insert into exchange_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="userId!= null ">
+				user_id,
+			</if>
+			<if test="scoreGoodsId!= null ">
+				score_goods_id,
+			</if>
+			<if test="exchangeTime!= null ">
+				exchange_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="userId!= null ">
+				#{userId},
+			</if>
+			<if test="scoreGoodsId!= null ">
+				#{scoreGoodsId},
+			</if>
+			<if test="exchangeTime!= null ">
+				#{exchangeTime},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.northbund.vblog.pojo.entity.ExchangeRecord" >
+		UPDATE exchange_record
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId!=null">user_id=#{userId},</if>
+			<if test="scoreGoodsId!=null">score_goods_id=#{scoreGoodsId},</if>
+			<if test="exchangeTime!=null">exchange_time=#{exchangeTime},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<delete id="delete">
+		delete from `exchange_record` WHERE id = #{id}
+	</delete>
+
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id != null ">
+				and er.id = #{id}
+			</if>
+			<if test="userId != null ">
+				AND er.user_id =#{userId}
+			</if>
+			<if test="scoreGoodsId != null ">
+				AND er.score_goods_id = #{scoreGoodsId}
+			</if>
+			<if test="startAt != null ">
+				AND er.exchange_time between #{startAt} and #{endAt}
+			</if>
+		</where>
+	</sql>
+
+
+</mapper>
+

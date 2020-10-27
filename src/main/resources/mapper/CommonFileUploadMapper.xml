@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.CommonFileUploadMapper">
+
+    <insert id="insert" parameterType="com.northbund.vblog.pojo.entity.CommonFileUpload" keyProperty="id" useGeneratedKeys= "true">
+        insert into common_file_upload
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!= null">
+                id,
+            </if>
+            <if test="relId!= null ">
+                rel_id,
+            </if>
+            <if test="attachmentType!= null ">
+                attachment_type,
+            </if>
+            <if test="originalFileName!= null and originalFileName !=''">
+                original_file_name,
+            </if>
+            <if test="filePath!= null and filePath !=''">
+                file_path,
+            </if>
+            <if test="url!= null and url !=''">
+                url,
+            </if>
+            <if test="uploadAt!= null ">
+                upload_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!= null">
+                #{id},
+            </if>
+            <if test="relId!= null ">
+                #{relId},
+            </if>
+            <if test="attachmentType!= null ">
+                #{attachmentType},
+            </if>
+            <if test="originalFileName!= null and originalFileName !=''">
+                #{originalFileName},
+            </if>
+            <if test="filePath!= null and filePath !=''">
+                #{filePath},
+            </if>
+            <if test="url!= null and url !=''">
+                #{url},
+            </if>
+            <if test="uploadAt!= null ">
+                #{uploadAt},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByRelIdAndAttachmentType" >
+        delete from common_file_upload WHERE rel_id = #{relId} and attachment_type =#{attachmentType}
+    </delete>
+
+    <delete id="deleteById" >
+        delete from common_file_upload WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.northbund.vblog.pojo.entity.CommonFileUpload" >
+        update common_file_upload
+        <trim prefix="set" suffixOverrides=",">
+            <if test="relId!=null">rel_id=#{relId},</if>
+            <if test="attachmentType!=null">attachment_type=#{attachmentType},</if>
+            <if test="originalFileName!=null">original_file_name=#{originalFileName},</if>
+            <if test="filePath!=null">file_path=#{filePath},</if>
+            <if test="uploadAt!=null">upload_at=#{uploadAt},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+
+    <select id="findAllByParams" parameterType="com.northbund.vblog.pojo.param.CommonFileUploadParam" resultType="com.northbund.vblog.pojo.vo.CommonFileUploadResult">
+        select * from common_file_upload
+        <include refid="where"></include>
+        order by id
+    </select>
+
+    <select id="findEntityListByParams" resultType="com.northbund.vblog.pojo.entity.CommonFileUpload">
+        SELECT * FROM `common_file_upload` WHERE rel_id = #{relId} AND attachment_type = #{attachmentType}
+    </select>
+
+    <sql id="where">
+        <where>
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+            <if test="relId != null">
+                AND rel_id = #{relId}
+            </if>
+            <if test="attachmentType != null ">
+                AND attachment_type = #{attachmentType}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+

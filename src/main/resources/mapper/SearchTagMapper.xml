@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.SearchTagMapper">
+
+	<!-- select  ##################################################################### -->
+
+	<select id="findAllByParam" resultType="com.northbund.vblog.pojo.vo.SearchTagResult">
+		SELECT * FROM `search_tag`
+		<include refid="where"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.northbund.vblog.pojo.entity.SearchTag" keyProperty="id" useGeneratedKeys= "true">
+		insert into search_tag
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="name!= null and name!=''">
+				`name`,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="name!= null and name!=''">
+				#{name},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.northbund.vblog.pojo.entity.SearchTag" >
+		UPDATE search_tag
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name!=null and name!=''">name=#{name},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<delete id="delete">
+		delete from `search_tag` WHERE id = #{id}
+	</delete>
+
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id != null ">
+				and id = #{id}
+			</if>
+			<if test="name != null and name!=''">
+				AND `name` like CONCAT('%',#{name},'%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="getSearchResult1" resultType="com.northbund.vblog.pojo.vo.WorksCollectionResult">
+		select * from works_collection where (title like CONCAT('%',#{searchTag},'%')
+		or works_introduction like CONCAT('%',#{searchTag},'%')) and works_status = 1
+	</select>
+
+	<select id="getSearchResult2" resultType="com.northbund.vblog.pojo.vo.FastNewsResult">
+        select * from fast_news where (title like CONCAT('%',#{searchTag},'%')
+        or content like CONCAT('%',#{searchTag},'%')) and display_time &lt;= now()
+	</select>
+
+	<select id="getSearchResult3" resultType="com.northbund.vblog.pojo.vo.ImageCalendarResult">
+        select * from image_calendar where (title like CONCAT('%',#{searchTag},'%')
+        or introduction like CONCAT('%',#{searchTag},'%')) and display_time &lt;= now()
+	</select>
+
+</mapper>
+

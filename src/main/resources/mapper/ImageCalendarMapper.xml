@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.ImageCalendarMapper">
+
+    <!-- select  ##################################################################### -->
+
+    <select id="findAllImageCalendarByParam" resultType="com.northbund.vblog.pojo.vo.ImageCalendarResult">
+        SELECT * FROM `image_calendar`
+        <include refid="whereForImageCalendar"></include>
+    </select>
+
+    <select id="getLastDisplayDateImageCalendar" resultType="com.northbund.vblog.pojo.vo.ImageCalendarResult">
+		SELECT * FROM `image_calendar` where display_time &lt;= #{displayTime} order by display_time desc limit 1
+	</select>
+
+    <insert id="insertImageCalendar" parameterType="com.northbund.vblog.pojo.entity.ImageCalendar" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into image_calendar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!= null">
+                id,
+            </if>
+            <if test="title!= null and title!=''">
+                title,
+            </if>
+            <if test="createTime!= null ">
+                create_time,
+            </if>
+            <if test="createBy!= null">
+                create_by,
+            </if>
+            <if test="updateTime!= null">
+                update_time,
+            </if>
+            <if test="displayTime!= null ">
+                display_time,
+            </if>
+            <if test="year!= null ">
+                `year`,
+            </if>
+            <if test="month!= null ">
+                `month`,
+            </if>
+            <if test="day!= null ">
+                `day`,
+            </if>
+            <if test="yearDescribe!= null and yearDescribe!='' ">
+                year_describe,
+            </if>
+            <if test="introduction!= null and introduction!=''">
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!= null">
+                #{id},
+            </if>
+            <if test="title!= null and title!=''">
+                #{title},
+            </if>
+            <if test="createTime!= null ">
+                #{createTime},
+            </if>
+            <if test="createBy!= null">
+                #{createBy},
+            </if>
+            <if test="updateTime!= null">
+                #{updateTime},
+            </if>
+            <if test="displayTime!= null ">
+                #{displayTime},
+            </if>
+            <if test="year!= null ">
+                #{year},
+            </if>
+            <if test="month!= null ">
+                #{month},
+            </if>
+            <if test="day!= null ">
+                #{day},
+            </if>
+            <if test="yearDescribe!= null and yearDescribe!='' ">
+                #{yearDescribe},
+            </if>
+            <if test="introduction!= null and introduction!=''">
+                #{introduction},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateImageCalendar" parameterType="com.northbund.vblog.pojo.entity.ImageCalendar">
+        UPDATE image_calendar
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null ">title=#{title},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="createBy!=null">create_by=#{createBy},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+            <if test="displayTime!=null">display_time=#{displayTime},</if>
+            <if test="year!=null">`year`=#{year},</if>
+            <if test="month!=null">`month`=#{month},</if>
+            <if test="day!=null">`day`=#{day},</if>
+            <if test="yearDescribe!=null ">year_describe=#{yearDescribe},</if>
+            <if test="introduction!=null ">introduction=#{introduction},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+
+    <delete id="deleteImageCalendar">
+		delete from `image_calendar` WHERE id = #{id}
+	</delete>
+
+
+
+    <sql id="whereForImageCalendar">
+        <where>
+            1=1
+            <if test="id != null ">
+                and id = #{id}
+            </if>
+            <if test="createBy != null ">
+                AND create_by = #{createBy}
+            </if>
+            <if test="displayTime != null ">
+                AND display_time = #{displayTime}
+            </if>
+            <if test="title != null and title!=''">
+                AND title = #{title}
+            </if>
+            <if test="endAt != null">
+                AND display_time &lt;= #{endAt}
+            </if>
+        </where>
+        order by display_time DESC
+    </sql>
+
+    <select id="findAllImageCalendarDetailByParam" resultType="com.northbund.vblog.pojo.vo.ImageCalendarDetailResult">
+        SELECT * FROM `image_calendar_detail`
+        <include refid="whereForImageCalendarDetail"></include>
+    </select>
+
+    <insert id="insertImageCalendarDetail" parameterType="com.northbund.vblog.pojo.entity.ImageCalendarDetail"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into image_calendar_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!= null">
+                id,
+            </if>
+            <if test="imageCalendarId!= null ">
+                image_calendar_id,
+            </if>
+            <if test="introduction!= null and introduction!=''">
+                introduction,
+            </if>
+            <if test="defaultFlag!= null ">
+                default_flag,
+            </if>
+            <if test="createTime!= null ">
+                create_time,
+            </if>
+            <if test="createBy!= null">
+                create_by,
+            </if>
+            <if test="updateTime!= null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!= null">
+                #{id},
+            </if>
+            <if test="imageCalendarId!= null">
+                #{imageCalendarId},
+            </if>
+            <if test="introduction!= null and introduction!=''">
+                #{introduction},
+            </if>
+            <if test="defaultFlag!= null ">
+                #{defaultFlag},
+            </if>
+            <if test="createTime!= null ">
+                #{createTime},
+            </if>
+            <if test="createBy!= null">
+                #{createBy},
+            </if>
+            <if test="updateTime!= null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateImageCalendarDetail" parameterType="com.northbund.vblog.pojo.entity.ImageCalendarDetail">
+        UPDATE image_calendar_detail
+        <trim prefix="set" suffixOverrides=",">
+            <if test="introduction!=null and introduction!=''">introduction=#{introduction},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="createBy!=null">create_by=#{createBy},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+            <if test="defaultFlag!=null">default_flag=#{defaultFlag},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteImageCalendarDetail">
+		delete from `image_calendar_detail` WHERE id = #{id}
+	</delete>
+
+    <sql id="whereForImageCalendarDetail">
+        <where>
+            1=1
+            <if test="id != null ">
+                and id = #{id}
+            </if>
+            <if test="createBy != null ">
+                AND create_by = #{createBy}
+            </if>
+            <if test="imageCalendarId != null ">
+                AND image_calendar_id = #{imageCalendarId}
+            </if>
+            <if test="defaultFlag != null ">
+                AND default_flag = #{defaultFlag}
+            </if>
+            <if test="introduction != null and introduction!=''">
+                AND introduction like CONCAT('%',#{introduction},'%')
+            </if>
+        </where>
+    </sql>
+
+
+</mapper>
+

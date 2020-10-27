@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.BannerMapper">
+
+	<!-- select  ##################################################################### -->
+
+	<select id="findAllByParam" resultType="com.northbund.vblog.pojo.vo.BannerResult">
+		SELECT * FROM `banner`
+		<include refid="where"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.northbund.vblog.pojo.entity.Banner" keyProperty="id" useGeneratedKeys= "true">
+		insert into banner
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="link!= null and link!=''">
+				link,
+			</if>
+			<if test="content!= null and content!=''">
+				content,
+			</if>
+			<if test="title!= null and title!=''">
+				title,
+			</if>
+			<if test="createTime!= null ">
+				create_time,
+			</if>
+			<if test="createBy!= null">
+				create_by,
+			</if>
+			<if test="updateTime!= null">
+				update_time,
+			</if>
+			<if test="displayTime!= null ">
+				display_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="link!= null and link!=''">
+				#{link},
+			</if>
+			<if test="content!= null and content!=''">
+				#{content},
+			</if>
+			<if test="title!= null and title!=''">
+				#{title},
+			</if>
+			<if test="createTime!= null ">
+				#{createTime},
+			</if>
+			<if test="createBy!= null">
+				#{createBy},
+			</if>
+			<if test="updateTime!= null">
+				#{updateTime},
+			</if>
+			<if test="displayTime!= null ">
+				#{displayTime},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.northbund.vblog.pojo.entity.Banner" >
+		UPDATE banner
+		<trim prefix="set" suffixOverrides=",">
+			<if test="link!=null and link!=''">link=#{link},</if>
+			<if test="content!=null ">content=#{content},</if>
+			<if test="title!=null ">title=#{title},</if>
+			<if test="createTime!=null">create_time=#{createTime},</if>
+			<if test="createBy!=null">create_by=#{createBy},</if>
+			<if test="updateTime!=null">update_time=#{updateTime},</if>
+			<if test="displayTime!=null">display_time=#{displayTime},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<delete id="delete">
+		delete from `banner` WHERE id = #{id}
+	</delete>
+
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id != null ">
+				and id = #{id}
+			</if>
+			<if test="link != null and link!=''">
+				AND link like CONCAT('%',#{link},'%')
+			</if>
+			<if test="content != null and content!=''">
+				AND content like CONCAT('%',#{content},'%')
+			</if>
+			<if test="createBy != null ">
+				AND create_by = #{createBy}
+			</if>
+			<if test="displayTime != null ">
+				AND display_time = #{displayTime}
+			</if>
+			<if test="title != null and title!=''">
+				AND title = #{title}
+			</if>
+		</where>
+	</sql>
+
+
+</mapper>
+

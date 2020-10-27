@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.ScoreShopMapper">
+
+	<!-- select  ##################################################################### -->
+
+	<select id="findAllByParam" resultType="com.northbund.vblog.pojo.vo.ScoreShopResult">
+		SELECT * FROM `score_shop`
+		<include refid="where"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.northbund.vblog.pojo.entity.ScoreShop" keyProperty="id" useGeneratedKeys= "true">
+		insert into score_shop
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="scoreGoodsName!=null and scoreGoodsName != ''">
+				score_goods_name,
+			</if>
+			<if test="introduction!=null and introduction != ''">
+				introduction,
+			</if>
+			<if test="scoreGoodsStatus!=null ">
+				score_goods_status,
+			</if>
+			<if test="createTime!=null ">
+				create_time,
+			</if>
+			<if test="updateTime!=null ">
+				update_time,
+			</if>
+			<if test="createBy!=null ">
+				create_by,
+			</if>
+			<if test="score!=null ">
+				score,
+			</if>
+			<if test="discount!=null ">
+				discount,
+			</if>
+			<if test="specifications!=null and specifications != ''">
+				specifications,
+			</if>
+			<if test="material!=null and material != ''">
+				material,
+			</if>
+			<if test="brand!=null and brand != ''">
+				brand,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="scoreGoodsName!=null and scoreGoodsName != ''">
+				#{scoreGoodsName},
+			</if>
+			<if test="introduction!=null and introduction != ''">
+				#{introduction},
+			</if>
+			<if test="scoreGoodsStatus!=null ">
+				#{scoreGoodsStatus},
+			</if>
+			<if test="createTime!=null ">
+				#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				#{updateTime},
+			</if>
+			<if test="createBy!=null ">
+				#{createBy},
+			</if>
+			<if test="score!=null ">
+				#{score},
+			</if>
+			<if test="discount!=null ">
+				#{discount},
+			</if>
+
+			<if test="specifications!=null and specifications != ''">
+				#{specifications},
+			</if>
+			<if test="material!=null and material != ''">
+				#{material},
+			</if>
+			<if test="brand!=null and brand != ''">
+				#{brand},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.northbund.vblog.pojo.entity.ScoreShop" >
+		UPDATE score_shop
+		<trim prefix="set" suffixOverrides=",">
+			<if test="scoreGoodsName!=null ">score_goods_name=#{scoreGoodsName},</if>
+			<if test="introduction!=null ">introduction=#{introduction},</if>
+			<if test="scoreGoodsStatus!=null ">score_goods_status=#{scoreGoodsStatus},</if>
+			<if test="updateTime!=null ">update_time=#{updateTime},</if>
+			<if test="createBy!=null ">create_by=#{createBy},</if>
+			<if test="score!=null ">score=#{score},</if>
+			<if test="discount!=null ">discount=#{discount},</if>
+			<if test="specifications!=null ">specifications=#{specifications},</if>
+			<if test="material!=null ">material=#{material},</if>
+			<if test="brand!=null ">brand=#{brand},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<delete id="delete">
+		delete from `score_shop` WHERE id = #{id}
+	</delete>
+
+	<select id="findById" resultType="com.northbund.vblog.pojo.entity.ScoreShop">
+		select * from score_shop where id = #{id}
+	</select>
+
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id != null ">
+				and id = #{id}
+			</if>
+			<if test="createBy != null ">
+				AND create_by = #{createBy}
+			</if>
+			<if test="scoreGoodsStatus != null ">
+				AND score_goods_status = #{scoreGoodsStatus}
+			</if>
+			<if test="scoreGoodsName != null and scoreGoodsName !=''">
+				AND score_goods_name = #{scoreGoodsName}
+			</if>
+		</where>
+	</sql>
+
+
+</mapper>
+

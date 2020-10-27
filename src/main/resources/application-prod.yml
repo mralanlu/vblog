@@ -1,0 +1,67 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bund-vblog
+
+#配置mybatis
+mybatis:
+  #配置xml映射路径
+  mapper-locations: classpath:mapper/*.xml
+  #配置实体类的别名
+  type-aliases-package: com.northbund.vblog.pojo.entity,com.northbund.vblog.pojo.vo
+  type-handlers-package: com.northbund.vblog.utils.handler
+  configuration:
+    #开启驼峰命名法
+    map-underscore-to-camel-case: true
+    log-impl:
+    #default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+
+#配置mysql连接
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://${MYSQL_HOST:${DB_HOST:81.68.215.194}}:${MYSQL_PORT:3306}/${MYSQL_DB:yingxiangrizhi}?autoReconnect=true&useAffectedRows=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2b8&allowMultiQueries=true
+    username: ${MYSQL_USER:yingxiangrizhi}
+    password: ${MYSQL_PASSWORD:z5rM63bGR8CL7PsY}
+
+
+
+
+  JPA:
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+
+  redis:
+    host: ${REDIS_DEFAULT_HOST:81.68.215.194}
+    #password: ${REDIS_DEFAULT_PASS:DDR5JG1Rdsi5NjA}
+    port: ${REDIS_DEFAULT_PORT:6379}
+    #database: ${REDIS_POPUP_DB:4}
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+logging:
+  level:
+    com.northbund.vblog: DEBUG
+  config: classpath:logback-spring.xml
+  file:
+    path: /data/log/vblog
+
+ignore_permission_urls: "/worksCollection/getRecommendedWorks,/commonFileUpload/upload,/commonFileUpload/download,/banner/list,
+/fastNews/list,/imageCalendar/imageCalendarList,/signIn/list,/scoreShop/listScoreGoods,/scoreShop/exchangeScoreGoods,/scoreShop/listExchangeRecord,
+/user/register,/user/sendVerifyCode,/worksCollection/list,/worksCollection/add,/worksCollection/update,/worksCollection/delete,
+/worksCollection/likes,/worksCollection/dislikes,/user/getUserInfo,/user/updateUserInfo,/user/list,/searchTag/list,/searchTag/search,
+/imageCalendar/getImageCalendarAndFastNewsForHomepage"
+
+#/searchTag/add,/searchTag/update,/searchTag/delete,/imageCalendar/addImageCalendar,/imageCalendar/updateImageCalendar,/imageCalendar/deleteImageCalendar,/fastNews/add,/fastNews/update,/fastNews/delete,/signIn/signIn,/banner/list,
+#/scoreShop/addScoreGoods,/worksCollection/reviewSuccess,/worksCollection/reviewFailure,/signIn/update,/signIn/delete,/scoreShop/updateScoreGoods,/scoreShop/upScoreGoods,/scoreShop/downScoreGoods,/scoreShop/deleteScoreGoods,
+
+
+uploadFileUrl: http://yxrz-api.jtculture.com.cn/

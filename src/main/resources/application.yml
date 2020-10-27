@@ -1,39 +1,4 @@
-server:
-  port: 8080
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
-    context-path: /bund-vblog
-#配置mybatis
-mybatis:
-  #配置xml映射路径
-  mapper-locations: classpath:mapper/*.xml
-  #配置实体类的别名
-  type-aliases-package: com.northbund.vblog.pojo
-  type-handlers-package: com.d1mgroup.pms.util.mybatis
-  configuration:
-    #开启驼峰命名法
-    map-underscore-to-camel-case: true
-    log-impl:
-    #default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
-
-
-#配置mysql连接
 spring:
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:${DB_HOST:47.103.22.54}}:${MYSQL_PORT:3306}/${MYSQL_DB:vblog}?autoReconnect=true&useAffectedRows=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2b8&allowMultiQueries=true
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:1234}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-
-
-logging:
-  level:
-    com.d1mgroup.pms: DEBUG
-  config: classpath:logback-spring.xml
-  file:
-    path: /data/log/vblog
-
-
+  profiles:
+    active: dev
+    #active: prod

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.UserMapper">
+
+	<!-- select  ##################################################################### -->
+
+	<select id="findAllByParam" resultType="com.northbund.vblog.pojo.vo.UserResult">
+		SELECT u.id,u.`name`,u.gender,u.age,u.score,u.phone,u.account,u.address,u.email,u.continue_sign_in,u.last_login_time,u.avatar,
+		r.code as role_code,r.name as role_name
+		 FROM `user` u left join user_role_rel urr on urr.user_id = u.id left join role r on urr.role_id = r.id
+		<include refid="where"></include>
+	</select>
+	
+	<update id="clearContinueSignIn">
+		update user set continue_sign_in = 0 where id not in
+		(select user_id from sign_in_record where sign_in_date = #{yesterday} or sign_in_date = #{today})
+	</update>
+
+	<select id="findByAccountAndPwd" resultType="com.northbund.vblog.pojo.vo.UserResult">
+		SELECT * FROM `user` where account = #{account} and pwd = #{pwd}
+	</select>
+
+	<select id="findById" resultType="com.northbund.vblog.pojo.entity.User">
+		SELECT * FROM `user` where id = #{id}
+	</select>
+
+	<select id="findUserInfoByAccount" resultType="com.northbund.vblog.pojo.entity.User">
+		SELECT * FROM `user` where account = #{account}
+	</select>
+
+	<select id="findUserInfoById" resultType="com.northbund.vblog.pojo.vo.UserResult">
+		SELECT u.id,u.`name`,u.gender,u.age,u.score,u.phone,u.account,u.address,u.email,u.continue_sign_in,u.last_login_time,u.avatar,
+		r.code as role_code,r.name as role_name
+		 FROM `user` u left join user_role_rel urr on urr.user_id = u.id left join role r on urr.role_id = r.id where u.id = #{id}
+	</select>
+
+	<select id="findByAccountAndStatus" resultType="com.northbund.vblog.pojo.entity.User">
+		SELECT * FROM `user` where account = #{account} and status = #{status}
+	</select>
+
+	<select id="getPathsByUserId" resultType="java.lang.String">
+		select r.path from role r left join user_role_rel urr on r.id = urr.role_id where urr.user_id = #{userId}
+	</select>
+
+	<select id="getRoleIdByUserId" resultType="java.lang.Integer">
+		select role_id from user_role_rel where user_id = #{userId}
+	</select>
+
+	<insert id="insert" parameterType="com.northbund.vblog.pojo.entity.User" keyProperty="id" useGeneratedKeys= "true">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="name!= null and name!=''">
+				`name`,
+			</if>
+			<if test="gender!= null ">
+				gender,
+			</if>
+			<if test="phone!= null and phone!=''">
+				phone,
+			</if>
+			<if test="age!= null ">
+				age,
+			</if>
+			<if test="account!= null and account!=''">
+				account,
+			</if>
+			<if test="score!= null ">
+				score,
+			</if>
+			<if test="pwd!= null and pwd!=''">
+				pwd,
+			</if>
+			<if test="address!= null and address!=''">
+				address,
+			</if>
+			<if test="email!= null and email!=''">
+				email,
+			</if>
+			<if test="continueSignIn!= null ">
+				continue_sign_in,
+			</if>
+			<if test="createTime!= null ">
+				create_time,
+			</if>
+			<if test="lastLoginTime!= null ">
+				last_login_time,
+			</if>
+			<if test="status!= null ">
+				status,
+			</if>
+			<if test="avatar!= null and avatar!=''">
+				avatar,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="name!= null and name!=''">
+				#{name},
+			</if>
+			<if test="gender!= null">
+				#{gender},
+			</if>
+			<if test="phone!= null and phone!=''">
+				#{phone},
+			</if>
+			<if test="age!= null ">
+				#{age},
+			</if>
+			<if test="account!= null and account!=''">
+				#{account},
+			</if>
+			<if test="score!= null ">
+				#{score},
+			</if>
+			<if test="pwd!= null and pwd!=''">
+				#{pwd},
+			</if>
+			<if test="address!= null and address!=''">
+				#{address},
+			</if>
+			<if test="email!= null and email!=''">
+				#{email},
+			</if>
+			<if test="continueSignIn!= null ">
+				#{continueSignIn},
+			</if>
+			<if test="createTime!= null ">
+				#{createTime},
+			</if>
+			<if test="lastLoginTime!= null ">
+				#{lastLoginTime},
+			</if>
+			<if test="status!= null ">
+				#{status},
+			</if>
+			<if test="avatar!= null and avatar!=''">
+				#{avatar},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertUserRoleRel" parameterType="com.northbund.vblog.pojo.entity.UserRoleRel">
+		insert into user_role_rel (user_id,role_id) values (#{userId},#{roleId})
+	</insert>
+	
+	<update id="update" parameterType="com.northbund.vblog.pojo.entity.User" >
+		UPDATE user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name!= null and name!=''">
+				`name` = #{name},
+			</if>
+			<if test="gender!= null">
+				gender = #{gender},
+			</if>
+			<if test="phone!= null and phone!=''">
+				phone = #{phone},
+			</if>
+			<if test="age!= null ">
+				age = #{age},
+			</if>
+			<if test="account!= null and account!=''">
+				account = #{account},
+			</if>
+			<if test="score!= null ">
+				score = #{score},
+			</if>
+			<if test="pwd!= null and pwd!=''">
+				pwd = #{pwd},
+			</if>
+			<if test="address!= null and address!=''">
+				address = #{address},
+			</if>
+			<if test="email!= null and email!=''">
+				email = #{email},
+			</if>
+			<if test="continueSignIn!= null ">
+				continue_sign_in = #{continueSignIn},
+			</if>
+			<if test="createTime!= null ">
+				create_time = #{createTime},
+			</if>
+			<if test="lastLoginTime!= null ">
+				last_login_time = #{lastLoginTime},
+			</if>
+			<if test="status!= null ">
+				status = #{status},
+			</if>
+			<if test="avatar!= null and avatar!=''">
+				avatar = #{avatar},
+			</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<delete id="delete">
+		delete from `user` WHERE id = #{id}
+	</delete>
+
+	<delete id="deleteRel">
+		delete from `user_role_rel` WHERE user_id = #{userId}
+	</delete>
+
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id != null ">
+				and u.id = #{id}
+			</if>
+			<if test="phone != null ">
+				AND u.phone = #{phone}
+			</if>
+			<if test="account != null ">
+				AND u.account = #{account}
+			</if>
+			<if test="name != null ">
+				AND u.`name` = #{name}
+			</if>
+		</where>
+	</sql>
+
+
+</mapper>
+

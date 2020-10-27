@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.northbund.vblog.mapper.WorksCollectionMapper">
+
+	<!-- select  ##################################################################### -->
+
+	<select id="findAllByParam" resultType="com.northbund.vblog.pojo.vo.WorksCollectionResult">
+		SELECT * FROM `works_collection`
+		<include refid="where"></include>
+	</select>
+
+	<select id="getRecommendedWorks" resultType="com.northbund.vblog.pojo.vo.WorksCollectionResult">
+		SELECT * FROM `works_collection` where works_status = 1
+	</select>
+
+	<insert id="insert" parameterType="com.northbund.vblog.pojo.entity.WorksCollection" keyProperty="id" useGeneratedKeys= "true">
+		insert into works_collection
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="worksIntroduction!= null and worksIntroduction!=''">
+				works_introduction,
+			</if>
+			<if test="title!= null and title!=''">
+				title,
+			</if>
+			<if test="name!= null and name!=''">
+				`name`,
+			</if>
+			<if test="phone!= null and phone!=''">
+				phone,
+			</if>
+			<if test="address!= null and address!=''">
+				address,
+			</if>
+			<if test="userId!= null ">
+				user_id,
+			</if>
+			<if test="worksStatus!= null">
+				works_status,
+			</if>
+			<if test="createTime!= null ">
+				create_time,
+			</if>
+			<if test="createBy!= null">
+				create_by,
+			</if>
+			<if test="reviewTime!= null">
+				review_time,
+			</if>
+			<if test="likes!= null ">
+				likes,
+			</if>
+			<if test="reviewBy!= null ">
+				review_by,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="worksIntroduction!= null and worksIntroduction!=''">
+				#{worksIntroduction},
+			</if>
+			<if test="title!= null and title!=''">
+				#{title},
+			</if>
+			<if test="name!= null and name!=''">
+				#{name},
+			</if>
+			<if test="phone!= null and phone!=''">
+				#{phone},
+			</if>
+			<if test="address!= null and address!=''">
+				#{address},
+			</if>
+			<if test="userId!= null ">
+				#{userId},
+			</if>
+			<if test="worksStatus!= null ">
+				#{worksStatus},
+			</if>
+			<if test="createTime!= null ">
+				#{createTime},
+			</if>
+			<if test="createBy!= null">
+				#{createBy},
+			</if>
+			<if test="reviewTime!= null">
+				#{reviewTime},
+			</if>
+			<if test="likes!= null ">
+				#{likes},
+			</if>
+			<if test="reviewBy!= null ">
+				#{reviewBy},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertLikesRecord" parameterType="com.northbund.vblog.pojo.entity.WorksLikesRecord" keyProperty="id" useGeneratedKeys= "true">
+		insert into works_likes_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				id,
+			</if>
+			<if test="worksId!= null ">
+				works_id,
+			</if>
+			<if test="userId!= null ">
+				user_id,
+			</if>
+			<if test="clickStatus!= null">
+				click_status,
+			</if>
+			<if test="likesDate!= null ">
+				likes_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!= null">
+				#{id},
+			</if>
+			<if test="worksId!= null ">
+				#{worksId},
+			</if>
+			<if test="userId!= null ">
+				#{userId},
+			</if>
+			<if test="clickStatus!= null ">
+				#{clickStatus},
+			</if>
+			<if test="likesDate!= null ">
+				#{likesDate},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.northbund.vblog.pojo.entity.WorksCollection" >
+		UPDATE works_collection
+		<trim prefix="set" suffixOverrides=",">
+			<if test="worksIntroduction!=null ">works_introduction=#{worksIntroduction},</if>
+			<if test="title!=null ">title=#{title},</if>
+			<if test="name!=null ">`name`=#{name},</if>
+			<if test="phone!=null ">phone=#{phone},</if>
+			<if test="address!=null ">address=#{address},</if>
+			<if test="worksStatus!=null ">works_status=#{worksStatus},</if>
+			<if test="userId!=null ">user_id=#{userId},</if>
+			<if test="createTime!=null">create_time=#{createTime},</if>
+			<if test="createBy!=null">create_by=#{createBy},</if>
+			<if test="reviewTime!=null">revie_time=#{reviewTime},</if>
+			<if test="reviewBy!=null">review_by=#{reviewBy},</if>
+			<if test="likes!=null">likes=#{likes},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<update id="updateLikesRecord" parameterType="com.northbund.vblog.pojo.entity.WorksLikesRecord" >
+		UPDATE works_likes_record
+		<trim prefix="set" suffixOverrides=",">
+			<if test="clickStatus!=null ">click_status=#{clickStatus},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+
+	<select id="getLikesRecord" resultType="com.northbund.vblog.pojo.vo.WorksLikesRecordResult">
+		select * from works_likes_record
+		<where>
+			1=1
+			<if test="id != null ">
+				and id = #{id}
+			</if>
+			<if test="userId != null ">
+				AND user_id = #{userId}
+			</if>
+			<if test="worksId != null ">
+				AND works_id = #{worksId}
+			</if>
+			<if test="likesDate != null ">
+				AND likes_date = #{likesDate}
+			</if>
+			<if test="clickStatus != null ">
+				AND click_status = #{clickStatus}
+			</if>
+		</where>
+	</select>
+
+	<delete id="delete">
+		delete from `works_collection` WHERE id = #{id}
+	</delete>
+
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id != null ">
+				and id = #{id}
+			</if>
+			<if test="userId != null ">
+				AND user_id = #{userId}
+			</if>
+			<if test="createBy != null ">
+				AND create_by = #{createBy}
+			</if>
+			<if test="reviewBy != null ">
+				AND review_by = #{reviewBy}
+			</if>
+			<if test="worksStatus != null ">
+				AND works_status = #{worksStatus}
+			</if>
+		</where>
+	</sql>
+
+
+</mapper>
+
